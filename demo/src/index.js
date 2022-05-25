@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
 import { HypernetxWidget } from '../../src/';
-import varsITy from '../../src/';
 
 const defaultUserInput = `{
   "Tomato": ["Fruit", "TH"],
@@ -139,4 +138,9 @@ function Demo() {
   );
 }
 
+var button = document.getElementById('fileBtn');
+button.onClick(select);
+function select() {
+  window.alert('Button has been clicked');
+}
 render(<Demo />, document.querySelector('#demo'));

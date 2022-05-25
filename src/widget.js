@@ -1,32 +1,32 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Typography from "@material-ui/core/Typography";
-import HypernetxWidgetView, { now } from "./HypernetxWidgetView";
-import ColorPalette from "./colorPalette.js";
-import LoadTable from "./loadTable.js";
-import Bars from "./bars.js";
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Typography from '@material-ui/core/Typography';
+import HypernetxWidgetView, { now } from './HypernetxWidgetView';
+import ColorPalette from './colorPalette.js';
+import LoadTable from './loadTable.js';
+import Bars from './bars.js';
 import {
   getNodeDegree,
   getEdgeSize,
   getValueFreq,
   accordianStyles,
   hslToHex,
-} from "./functions.js";
-import Toolbar from "./toolbar";
-import Switches from "./switches";
-import FontSizeMenu from "./fontSizeMenu";
-import { Divider, IconButton, Modal, Paper } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import NodeSizeMenu from "./nodeSizeMenu";
-import { max, range } from "d3-array";
-import HelpMenu from "./helpMenu";
-import NavigableSVG, { PAN, ZOOM_IN, ZOOM_OUT, RESET } from "./NavigableSVG";
-import { HypernetxWidgetDualView } from "./HypernetxWidgetDualView";
-import props from "./stories/data/props.json";
+} from './functions.js';
+import Toolbar from './toolbar';
+import Switches from './switches';
+import FontSizeMenu from './fontSizeMenu';
+import { Divider, IconButton, Modal, Paper } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import NodeSizeMenu from './nodeSizeMenu';
+import { max, range } from 'd3-array';
+import HelpMenu from './helpMenu';
+import NavigableSVG, { PAN, ZOOM_IN, ZOOM_OUT, RESET } from './NavigableSVG';
+import { HypernetxWidgetDualView } from './HypernetxWidgetDualView';
+import props from './stories/data/props.json';
 
 const createDefaultState = (data, defaultValue) => {
   const mapObj = new Map();
@@ -97,14 +97,14 @@ const Widget = ({ nodes, edges, ...props }) => {
   const { _model } = props;
 
   if (_model !== undefined) {
-    _model.set("node_fill", nodeFill);
-    _model.set("edge_stroke", edgeStroke);
-    _model.set("selected_nodes", selectedNodes);
-    _model.set("selected_edges", selectedEdges);
-    _model.set("hidden_nodes", hiddenNodes);
-    _model.set("hidden_edges", hiddenEdges);
-    _model.set("removed_nodes", removedNodes);
-    _model.set("removed_edges", removedEdges);
+    _model.set('node_fill', nodeFill);
+    _model.set('edge_stroke', edgeStroke);
+    _model.set('selected_nodes', selectedNodes);
+    _model.set('selected_edges', selectedEdges);
+    _model.set('hidden_nodes', hiddenNodes);
+    _model.set('hidden_edges', hiddenEdges);
+    _model.set('removed_nodes', removedNodes);
+    _model.set('removed_edges', removedEdges);
 
     _model.save();
   }
@@ -113,7 +113,7 @@ const Widget = ({ nodes, edges, ...props }) => {
     const h = color.h;
     const s = color.s * 100;
     const l = color.l * 100;
-    if (datatype === "node") {
+    if (datatype === 'node') {
       setNodeFill({ ...nodeFill, [uid]: hslToHex(h, s, l) });
     } else {
       setEdgeStroke({ ...edgeStroke, [uid]: hslToHex(h, s, l) });
@@ -121,7 +121,7 @@ const Widget = ({ nodes, edges, ...props }) => {
   };
 
   const handleVisibilityChange = (datatype, uid, visibility) => {
-    if (datatype === "node") {
+    if (datatype === 'node') {
       setHiddenNodes({ ...hiddenNodes, [uid]: !visibility });
     } else {
       setHiddenEdges({ ...hiddenEdges, [uid]: !visibility });
@@ -129,7 +129,7 @@ const Widget = ({ nodes, edges, ...props }) => {
   };
 
   const handleSelectedChange = (datatype, uid, selected) => {
-    if (datatype === "node") {
+    if (datatype === 'node') {
       setSelectedNodes({ ...selectedNodes, [uid]: selected });
     } else {
       setSelectedEdges({ ...selectedEdges, [uid]: selected });
@@ -137,7 +137,7 @@ const Widget = ({ nodes, edges, ...props }) => {
   };
 
   const handleRemovedChange = (datatype, uid, removed) => {
-    if (datatype === "node") {
+    if (datatype === 'node') {
       setRemovedNodes({ ...removedNodes, [uid]: removed });
       let currDegData = { ...nodeDegBar };
       if (removed) {
@@ -159,7 +159,7 @@ const Widget = ({ nodes, edges, ...props }) => {
   };
 
   const handleSelectAll = (type, value) => {
-    if (type === "node") {
+    if (type === 'node') {
       if (value) {
         setSelectedNodes(createDefaultState(nodes, true));
       } else {
@@ -175,7 +175,7 @@ const Widget = ({ nodes, edges, ...props }) => {
   };
 
   const handleBarSelect = (value, datatype) => {
-    if (datatype === "node") {
+    if (datatype === 'node') {
       const nodesOnBarMap = new Map();
       nodes.map((x) => nodesOnBarMap.set(x.uid, false));
       Object.entries(nodeDegList).map((uidDeg) => {
@@ -186,7 +186,7 @@ const Widget = ({ nodes, edges, ...props }) => {
         });
       });
       setSelectedNodes(Object.fromEntries(nodesOnBarMap));
-    } else if (datatype === "edge") {
+    } else if (datatype === 'edge') {
       const edgesOnBarMap = new Map();
       edges.map((x) => edgesOnBarMap.set(x.uid.toString(), false));
       Object.entries(edgeSizeList).map((uidSize) => {
@@ -223,25 +223,25 @@ const Widget = ({ nodes, edges, ...props }) => {
   });
 
   const [colGroup, setColGroup] = React.useState({
-    node: "Id",
-    edge: "Id",
+    node: 'Id',
+    edge: 'Id',
   });
   const [colPalette, setColPalette] = React.useState({
-    node: "default",
-    edge: "default",
+    node: 'default',
+    edge: 'default',
   });
 
   const [toggleSelect, setToggleSelect] = React.useState({
-    Nodes: "original",
-    Edges: "original",
+    Nodes: 'original',
+    Edges: 'original',
     // Graph: "undo",
-    Selection: "cursor",
+    Selection: 'cursor',
     Navigation: undefined,
     View: undefined,
   });
   const [fontSize, setFontSize] = React.useState({ node: 12, edge: 10 });
   const [nodeSize, setNodeSize] = React.useState(createDefaultState(nodes, 2));
-  const [nodeSizeGroup, setNodeSizeGroup] = React.useState("None");
+  const [nodeSizeGroup, setNodeSizeGroup] = React.useState('None');
   const [openHelp, setOpenHelp] = React.useState(false);
   const [large, setLarge] = React.useState(false);
   const [openFullscreen, setOpenFullscreen] = React.useState(false);
@@ -320,7 +320,7 @@ const Widget = ({ nodes, edges, ...props }) => {
           [data.uid]: !selectedEdges[data.uid],
         });
       } else if (data === undefined) {
-        const clearObj = { Nodes: "original", Edges: "original" };
+        const clearObj = { Nodes: 'original', Edges: 'original' };
         if (navigation === RESET) {
           setToggleSelect({ ...toggleSelect, ...clearObj });
           setSelectedEdges({});
@@ -333,13 +333,13 @@ const Widget = ({ nodes, edges, ...props }) => {
   };
 
   const handleOriginal = (type) => {
-    if (type === "Nodes") {
+    if (type === 'Nodes') {
       setSelectedNodes({});
       setHiddenNodes({});
       setRemovedNodes({});
       setNodeDegBar({ ...nodeDegList });
     }
-    if (type === "Edges") {
+    if (type === 'Edges') {
       setSelectedEdges({});
       setHiddenEdges({});
       setRemovedEdges({});
@@ -352,7 +352,7 @@ const Widget = ({ nodes, edges, ...props }) => {
   };
 
   const handleHideSelected = (type) => {
-    if (type === "Nodes") {
+    if (type === 'Nodes') {
       const selectedNodesTrue = Object.fromEntries(
         Object.entries(selectedNodes).filter(([k, v]) => v)
       );
@@ -366,7 +366,7 @@ const Widget = ({ nodes, edges, ...props }) => {
   };
 
   const handleRemoveSelected = (type) => {
-    if (type === "Nodes") {
+    if (type === 'Nodes') {
       const selectedNodesTrue = Object.fromEntries(
         Object.entries(selectedNodes).filter(([k, v]) => v)
       );
@@ -391,7 +391,7 @@ const Widget = ({ nodes, edges, ...props }) => {
     let nodeToSelect = new Map(
       Object.entries(createDefaultState(nodes, false))
     );
-    if (type === "nodes in edges") {
+    if (type === 'nodes in edges') {
       Object.entries(selectedEdges).map((d) => {
         edges.map((e) => {
           if (d[1] && d[0] === e.uid) {
@@ -418,42 +418,42 @@ const Widget = ({ nodes, edges, ...props }) => {
 
   const handleToolbarSelection = (dataType, selectionType) => {
     setToggleSelect({ ...toggleSelect, [dataType]: selectionType });
-    if (selectionType === "hidden") {
+    if (selectionType === 'hidden') {
       handleHideSelected(dataType);
       setPinned(false);
-    } else if (selectionType === "removed") {
+    } else if (selectionType === 'removed') {
       handleRemoveSelected(dataType);
       setPinned(false);
-    } else if (selectionType === "other") {
+    } else if (selectionType === 'other') {
       setPinned(false);
-      if (dataType === "Nodes") {
-        handleOtherSelect("edges in nodes");
+      if (dataType === 'Nodes') {
+        handleOtherSelect('edges in nodes');
       } else {
-        handleOtherSelect("nodes in edges");
+        handleOtherSelect('nodes in edges');
       }
-    } else if (selectionType === "all") {
+    } else if (selectionType === 'all') {
       setPinned(false);
-      if (dataType === "Nodes") {
+      if (dataType === 'Nodes') {
         setSelectedNodes(createDefaultState(nodes, true));
       } else {
         setSelectedEdges(createDefaultState(edges, true));
       }
-    } else if (selectionType === "none") {
+    } else if (selectionType === 'none') {
       setPinned(false);
-      if (dataType === "Nodes") {
+      if (dataType === 'Nodes') {
         setSelectedNodes({});
       } else {
         setSelectedEdges({});
       }
-    } else if (selectionType === "unpin") {
+    } else if (selectionType === 'unpin') {
       setPinned(false);
       setUnpinned(now());
       setToggleSelect({ ...toggleSelect, Nodes: undefined });
-    } else if (selectionType === "pin") {
+    } else if (selectionType === 'pin') {
       setPinned(true);
-    } else if (selectionType === "reverse") {
+    } else if (selectionType === 'reverse') {
       setPinned(false);
-      if (dataType === "Nodes") {
+      if (dataType === 'Nodes') {
         const currSelectedNodes = { ...selectedNodes };
         const uids = nodes.map((d) => d.uid);
         uids.map((d) => {
@@ -468,30 +468,30 @@ const Widget = ({ nodes, edges, ...props }) => {
         });
         setSelectedEdges(currSelectedEdges);
       }
-    } else if (selectionType === "fullscreen") {
+    } else if (selectionType === 'fullscreen') {
       setOpenDualFull(false);
       setLarge(true);
       setOpenFullscreen(true);
       setAspect(2);
       setToggleSelect({ ...toggleSelect, View: selectionType });
       // setNavigation(undefined);
-    } else if (selectionType === "bipartite") {
+    } else if (selectionType === 'bipartite') {
       setBipartite(true);
-    } else if (selectionType === "undo-bipartite") {
+    } else if (selectionType === 'undo-bipartite') {
       setBipartite(false);
-    } else if (selectionType === "collapse") {
+    } else if (selectionType === 'collapse') {
       setCollapseNodes(true);
-    } else if (selectionType === "undo-collapse") {
+    } else if (selectionType === 'undo-collapse') {
       setCollapseNodes(false);
-    } else if (selectionType === "original") {
+    } else if (selectionType === 'original') {
       setPinned(false);
       handleOriginal(dataType);
-    } else if (selectionType === "help") {
+    } else if (selectionType === 'help') {
       setOpenHelp(true);
     } else if (
-      selectionType === "node-brush" ||
-      selectionType === "edge-brush" ||
-      selectionType === "cursor"
+      selectionType === 'node-brush' ||
+      selectionType === 'edge-brush' ||
+      selectionType === 'cursor'
     ) {
       let newToggle = { Selection: selectionType, Navigation: undefined };
       setToggleSelect({ ...toggleSelect, ...newToggle });
@@ -501,16 +501,16 @@ const Widget = ({ nodes, edges, ...props }) => {
       let newToggle = { Selection: undefined, Navigation: selectionType };
       setToggleSelect({ ...toggleSelect, ...newToggle });
 
-      if (selectionType === "pan") {
+      if (selectionType === 'pan') {
         setNavigation(PAN);
         // setSelectionMode(undefined);
-      } else if (selectionType === "zoom in") {
+      } else if (selectionType === 'zoom in') {
         setNavigation(ZOOM_IN);
         // setSelectionMode(undefined);
-      } else if (selectionType === "zoom out") {
+      } else if (selectionType === 'zoom out') {
         setNavigation(ZOOM_OUT);
         // setSelectionMode(undefined);
-      } else if (selectionType === "dual") {
+      } else if (selectionType === 'dual') {
         // setNavigation(selectionType);
         setToggleSelect({ ...toggleSelect, View: selectionType });
         // setSelectionMode(undefined);
@@ -521,28 +521,28 @@ const Widget = ({ nodes, edges, ...props }) => {
         // no navigation
 
         setNavigation(RESET);
-        setToggleSelect({ ...toggleSelect, Selection: "cursor" });
+        setToggleSelect({ ...toggleSelect, Selection: 'cursor' });
       }
     }
   };
 
   const handleSwitch = (dataType, states) => {
-    if (dataType === "node") {
+    if (dataType === 'node') {
       // setWithNodeLabels(states.showLabels);
       setCollapseNodes(states.collapseNodes);
-      setToggleSelect({ ...toggleSelect, Nodes: "collapse" });
+      setToggleSelect({ ...toggleSelect, Nodes: 'collapse' });
 
       // setToggleSelect({ ...toggleSelect, Graph: "collapse" });
     } else {
       // setWithEdgeLabels(states.showLabels);
       setBipartite(states.bipartite);
-      setToggleSelect({ ...toggleSelect, Edges: "bipartite" });
+      setToggleSelect({ ...toggleSelect, Edges: 'bipartite' });
       // setToggleSelect({ ...toggleSelect, Graph: "bipartite" });
     }
   };
 
   const handlePaletteChange = (dataType, newPalette) => {
-    if (dataType === "node") {
+    if (dataType === 'node') {
       setNodeFill(newPalette);
     } else {
       setEdgeStroke(newPalette);
@@ -551,7 +551,7 @@ const Widget = ({ nodes, edges, ...props }) => {
 
   const handleAllColorChange = (color, type) => {
     const singleColorMap = new Map();
-    if (type === "node") {
+    if (type === 'node') {
       Object.keys({ ...nodeFill }).map((d) => singleColorMap.set(d, color));
       setNodeFill(Object.fromEntries(singleColorMap));
     } else {
@@ -561,8 +561,8 @@ const Widget = ({ nodes, edges, ...props }) => {
   };
 
   const handleFontSize = (type, size) => {
-    if (type === "node") {
-      if (size === "hide labels") {
+    if (type === 'node') {
+      if (size === 'hide labels') {
         setWithNodeLabels(false);
       } else {
         setWithNodeLabels(true);
@@ -570,7 +570,7 @@ const Widget = ({ nodes, edges, ...props }) => {
         setFontSize({ ...fontSize, [type]: size });
       }
     } else {
-      if (size === "hide labels") {
+      if (size === 'hide labels') {
         setWithEdgeLabels(false);
       } else {
         setEdgeFontSize(createDefaultState(edges, size));
@@ -602,7 +602,7 @@ const Widget = ({ nodes, edges, ...props }) => {
 
   const handleNodeSize = (group, metadata) => {
     var obj = {};
-    if (group === "None") {
+    if (group === 'None') {
       obj = createDefaultState(nodes, 2);
     } else {
       if (metadata === undefined) {
@@ -621,10 +621,10 @@ const Widget = ({ nodes, edges, ...props }) => {
   const handleAccordian = (e, expanded, type) => {
     const currAccordian = { ...openAccordian };
     currAccordian[type] = expanded;
-    if (type === "node") {
-      currAccordian["edge"] = !currAccordian["edge"];
+    if (type === 'node') {
+      currAccordian['edge'] = !currAccordian['edge'];
     } else {
-      currAccordian["node"] = !currAccordian["node"];
+      currAccordian['node'] = !currAccordian['node'];
     }
     setOpenAccordian(currAccordian);
   };
@@ -648,20 +648,20 @@ const Widget = ({ nodes, edges, ...props }) => {
         <Grid item xs={12} sm={4}>
           <div className={classes.root}>
             <Accordion
-              expanded={openAccordian["node"]}
-              onChange={(e, expanded) => handleAccordian(e, expanded, "node")}
+              expanded={openAccordian['node']}
+              onChange={(e, expanded) => handleAccordian(e, expanded, 'node')}
             >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon style={{ fontSize: "20px" }} />}
+                expandIcon={<ExpandMoreIcon style={{ fontSize: '20px' }} />}
               >
-                <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
-                  {"Nodes" + " (" + String(nodes.length) + ")"}
+                <Typography style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                  {'Nodes' + ' (' + String(nodes.length) + ')'}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <div style={{ width: "100%" }}>
+                <div style={{ width: '100%' }}>
                   <LoadTable
-                    type={"node"}
+                    type={'node'}
                     metadata={props.nodeData}
                     data={transNodeData}
                     onColorChange={handleColorChange}
@@ -672,17 +672,17 @@ const Widget = ({ nodes, edges, ...props }) => {
                     // onAllColorChange={handleAllColorChange}
                   />
                   <Bars
-                    type={"node"}
+                    type={'node'}
                     freqData={getValueFreq(nodeDegBar)}
                     origMax={globalMaxDeg}
                     // freqData={Object.values(nodeDegBar)}
                     onValueChange={handleBarSelect}
                   />
                   <ColorPalette
-                    type={"node"}
+                    type={'node'}
                     data={nodeDegList}
                     defaultColors={
-                      props.nodeFill || createDefaultState(nodes, "#000000ff")
+                      props.nodeFill || createDefaultState(nodes, '#000000ff')
                     }
                     metadata={props.nodeData}
                     onPaletteChange={handlePaletteChange}
@@ -693,10 +693,10 @@ const Widget = ({ nodes, edges, ...props }) => {
                     onAllColorChange={handleAllColorChange}
                   />
                   <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
                   >
                     <FontSizeMenu
-                      type={"node"}
+                      type={'node'}
                       currSize={fontSize}
                       onSizeChange={handleFontSize}
                     />
@@ -709,27 +709,27 @@ const Widget = ({ nodes, edges, ...props }) => {
 
                   <Switches
                     currData={switchData}
-                    dataType={"node"}
+                    dataType={'node'}
                     onSwitchChange={handleSwitch}
                   />
                 </div>
               </AccordionDetails>
             </Accordion>
             <Accordion
-              expanded={openAccordian["edge"]}
-              onChange={(e, expanded) => handleAccordian(e, expanded, "edge")}
+              expanded={openAccordian['edge']}
+              onChange={(e, expanded) => handleAccordian(e, expanded, 'edge')}
             >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon style={{ fontSize: "20px" }} />}
+                expandIcon={<ExpandMoreIcon style={{ fontSize: '20px' }} />}
               >
-                <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
-                  {"Edges" + " (" + String(edges.length) + ")"}
+                <Typography style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                  {'Edges' + ' (' + String(edges.length) + ')'}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <div style={{ width: "100%" }}>
+                <div style={{ width: '100%' }}>
                   <LoadTable
-                    type={"edge"}
+                    type={'edge'}
                     data={transEdgeData}
                     metadata={props.edgeData}
                     onColorChange={handleColorChange}
@@ -740,18 +740,18 @@ const Widget = ({ nodes, edges, ...props }) => {
                     // onAllColorChange={handleAllColorChange}
                   />
                   <Bars
-                    type={"edge"}
+                    type={'edge'}
                     freqData={getValueFreq(edgeSizeBar)}
                     origMax={globalMaxSize}
                     // freqData={Object.values(edgeSizeBar)}
                     onValueChange={handleBarSelect}
                   />
                   <ColorPalette
-                    type={"edge"}
+                    type={'edge'}
                     data={edgeSizeList}
                     metadata={props.edgeData}
                     defaultColors={
-                      props.edgeStroke || createDefaultState(edges, "#000000ff")
+                      props.edgeStroke || createDefaultState(edges, '#000000ff')
                     }
                     onPaletteChange={handlePaletteChange}
                     currGroup={colGroup.edge}
@@ -761,13 +761,13 @@ const Widget = ({ nodes, edges, ...props }) => {
                     onAllColorChange={handleAllColorChange}
                   />
                   <FontSizeMenu
-                    type={"edge"}
+                    type={'edge'}
                     currSize={fontSize}
                     onSizeChange={handleFontSize}
                   />
                   <Switches
                     currData={switchData}
-                    dataType={"edge"}
+                    dataType={'edge'}
                     onSwitchChange={handleSwitch}
                   />
                 </div>
@@ -780,40 +780,40 @@ const Widget = ({ nodes, edges, ...props }) => {
           <div>
             <div
               style={{
-                display: "flex",
-                justifyContent: "center",
-                flexFlow: "row wrap",
+                display: 'flex',
+                justifyContent: 'center',
+                flexFlow: 'row wrap',
               }}
             >
-              <div style={{ display: "flex" }}>
+              <div style={{ display: 'flex' }}>
                 <Toolbar
-                  category={"Data"}
-                  dataType={"Nodes"}
+                  category={'Data'}
+                  dataType={'Nodes'}
                   currToggle={toggleSelect.Nodes}
                   selectionState={selectedNodes}
                   onSelectionChange={handleToolbarSelection}
                 />
                 <Toolbar
-                  category={"Data"}
-                  dataType={"Edges"}
+                  category={'Data'}
+                  dataType={'Edges'}
                   currToggle={toggleSelect.Edges}
                   selectionState={selectedEdges}
                   onSelectionChange={handleToolbarSelection}
                 />
               </div>
-              <div style={{ display: "flex" }}>
+              <div style={{ display: 'flex' }}>
                 {/*<Toolbar*/}
                 {/*  category={"Graph"}*/}
                 {/*  currToggle={toggleSelect.Graph}*/}
                 {/*  onSelectionChange={handleToolbarSelection}*/}
                 {/*/>*/}
                 <Toolbar
-                  category={"Selection"}
+                  category={'Selection'}
                   currToggle={toggleSelect.Selection}
                   onSelectionChange={handleToolbarSelection}
                 />
                 <Toolbar
-                  category={"Navigation"}
+                  category={'Navigation'}
                   currToggle={toggleSelect.Navigation}
                   onSelectionChange={handleToolbarSelection}
                 />
@@ -862,9 +862,9 @@ const Widget = ({ nodes, edges, ...props }) => {
         onOpenChange={() => {
           setOpenHelp(false);
           openDualFull
-            ? setToggleSelect({ ...toggleSelect, View: "dual" })
+            ? setToggleSelect({ ...toggleSelect, View: 'dual' })
             : openFullscreen
-            ? setToggleSelect({ ...toggleSelect, View: "fullscreen" })
+            ? setToggleSelect({ ...toggleSelect, View: 'fullscreen' })
             : setToggleSelect({ ...toggleSelect, View: undefined });
         }}
       />
@@ -876,29 +876,29 @@ const Widget = ({ nodes, edges, ...props }) => {
         <Paper>
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              paddingLeft: "10px",
-              paddingTop: "5px",
+              display: 'flex',
+              justifyContent: 'space-between',
+              paddingLeft: '10px',
+              paddingTop: '5px',
             }}
           >
             <div
               style={{
-                display: "flex",
-                justifyContent: "center",
+                display: 'flex',
+                justifyContent: 'center',
                 // flexFlow: "row wrap",
               }}
             >
               <Toolbar
-                category={"Data"}
-                dataType={"Nodes"}
+                category={'Data'}
+                dataType={'Nodes'}
                 currToggle={toggleSelect.Nodes}
                 selectionState={selectedNodes}
                 onSelectionChange={handleToolbarSelection}
               />
               <Toolbar
-                category={"Data"}
-                dataType={"Edges"}
+                category={'Data'}
+                dataType={'Edges'}
                 currToggle={toggleSelect.Edges}
                 selectionState={selectedEdges}
                 onSelectionChange={handleToolbarSelection}
@@ -909,12 +909,12 @@ const Widget = ({ nodes, edges, ...props }) => {
               {/*  onSelectionChange={handleToolbarSelection}*/}
               {/*/>*/}
               <Toolbar
-                category={"Selection"}
+                category={'Selection'}
                 currToggle={toggleSelect.Selection}
                 onSelectionChange={handleToolbarSelection}
               />
               <Toolbar
-                category={"Navigation"}
+                category={'Navigation'}
                 currToggle={toggleSelect.Navigation}
                 onSelectionChange={handleToolbarSelection}
               />
@@ -926,7 +926,7 @@ const Widget = ({ nodes, edges, ...props }) => {
             </div>
             <div>
               <IconButton onClick={handleClose}>
-                <CloseIcon size={"large"} />
+                <CloseIcon size={'large'} />
               </IconButton>
             </div>
           </div>
@@ -965,11 +965,11 @@ const Widget = ({ nodes, edges, ...props }) => {
               <Grid item sm={6}>
                 <div
                   style={{
-                    fontSize: "17px",
-                    paddingTop: "10px",
-                    fontFamily: "Arial",
-                    fontWeight: "bold",
-                    textAlign: "center",
+                    fontSize: '17px',
+                    paddingTop: '10px',
+                    fontFamily: 'Arial',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
                   }}
                 >
                   Prime
@@ -1005,16 +1005,16 @@ const Widget = ({ nodes, edges, ...props }) => {
               </Grid>
               <Divider
                 orientation="vertical"
-                style={{ marginTop: "15px", height: "85vh" }}
+                style={{ marginTop: '15px', height: '85vh' }}
               />
               <Grid item sm={5}>
                 <div
                   style={{
-                    fontSize: "17px",
-                    paddingTop: "10px",
-                    fontFamily: "Arial",
-                    fontWeight: "bold",
-                    textAlign: "center",
+                    fontSize: '17px',
+                    paddingTop: '10px',
+                    fontFamily: 'Arial',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
                   }}
                 >
                   Dual
