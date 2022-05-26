@@ -388,6 +388,7 @@ function Demo() {
   };
 
   let displayBtn = () => {
+    var textarea = document.getElementById('testOutput');
     const lines = localStorage.csvText.split(/\r\n|\n/);
 
     // Should be able to insert any localStorage string here
@@ -398,13 +399,13 @@ function Demo() {
 
     // Creates arrays for all rows
     const rows = [];
-    for (i = 0; i < lines.length - 2; i++) {
+    for (var i = 0; i < lines.length - 2; i++) {
       rows[i] = lines[i + 1].split(/[,]/);
     }
 
     // Creates two dimensional array
     var grid = new Array(lines.length);
-    for (i = 0; i < lines.length; i++) {
+    for (var i = 0; i < lines.length; i++) {
       grid[i] = lines[i].split(/[,]/);
     }
 
