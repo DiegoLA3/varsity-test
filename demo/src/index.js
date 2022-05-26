@@ -91,6 +91,10 @@ function Demo() {
 
   const nodes = Array.from(nodesSet.values());
 
+  let handleClickFunction = () => {
+    alert('Clicked');
+  };
+
   return (
     <Grid container>
       <Grid item xs={6}>
@@ -99,9 +103,7 @@ function Demo() {
             <div id="fileTemplate">
               <h4> File template component </h4>
               <div id="template">
-                <button id="templateBtn" onclick="download">
-                  Download Template
-                </button>
+                <button onClick={handleClickFunction}>Click Me</button>
               </div>
             </div>
             <div id="fileUpload">
@@ -138,9 +140,4 @@ function Demo() {
   );
 }
 
-var button = document.getElementById('fileBtn');
-button.onClick(select);
-function select() {
-  window.alert('Button has been clicked');
-}
 render(<Demo />, document.querySelector('#demo'));
