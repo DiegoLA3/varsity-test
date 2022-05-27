@@ -15,8 +15,8 @@ const defaultUserInput = `{
   "10": ["BM", "FN", "JA"],
   "11": ["JV", "JU", "CH", "BM"],
   "0": ["JU", "CH", "BR", "CN", "CC", "JV", "BM"],
-  "5": ["TH", "GP"],
-  "6": ["GP", "MP"],
+  "5": ["TH", "Gp"],
+  "6": ["GP", "PP"],
   "7": ["MA", "GP"]
 }`;
 
@@ -76,6 +76,21 @@ function JSONTextField({ defaultValue, onChange, ...props }) {
 }
 
 function Demo() {
+  const [incidenceDict, setIncidenceDict] = React.useState(
+    JSON.parse(defaultUserInput)
+  );
+
+  const nodesSet = new Map();
+  const edges = Object.entries(incidenceDict).map(([uid, elements]) => {
+    elements.forEach((uid) => {
+      nodesSet.set(uid, { uid });
+    });
+
+    return { uid, elements };
+  });
+
+  const nodes = Array.from(nodesSet.values());
+
   const csvFileData = [
     [
       'Brazil',
@@ -389,6 +404,7 @@ function Demo() {
     for (var i = 0; i < lines.length; i++) {
       grid[i] = lines[i].split(/[,]/);
     }
+
     format();
 
     //_________________________________________________________________________//
@@ -474,6 +490,20 @@ function Demo() {
       }
     }
 
+    // Textarea used as my visual tester
+    /*
+            var printer = headers.join(" * ");
+            printer += "\n --------------------------------------------------------------------------------------------------------------- \n";
+            for (i = 0; i < rows.length; i++) {
+                //console.log(`Value of I is ${i}`);
+                for (k = 0; k < rows[i].length; k++) {
+                    printer += rows[i].join(" * ");
+                    if (k = rows.length - 1) {
+                        printer += "\n --------------------------------------------------------------------------------------------------------------- \n";
+                    }
+                }
+            }
+            */
     textarea.value = localStorage.kienText;
   };
 
@@ -498,6 +528,16 @@ function Demo() {
     for (var i = 0; i < lines.length; i++) {
       grid[i] = lines[i].split(/[,]/);
     }
+
+    // Test to ensure elements are stored as arrays
+    /*
+            for (i = 0; i < grid.length; i++) {
+                for (k = 0; k < grid[i][k].length; k++) {
+                    console.log(`INDEX: ${i} ROW CONTENTS: ${grid[i][k]}`);
+                }
+            }
+            */
+
     format();
 
     //_________________________________________________________________________//
@@ -583,23 +623,22 @@ function Demo() {
       }
     }
 
+    // Textarea used as my visual tester
+    /*
+            var printer = headers.join(" * ");
+            printer += "\n --------------------------------------------------------------------------------------------------------------- \n";
+            for (i = 0; i < rows.length; i++) {
+                //console.log(`Value of I is ${i}`);
+                for (k = 0; k < rows[i].length; k++) {
+                    printer += rows[i].join(" * ");
+                    if (k = rows.length - 1) {
+                        printer += "\n --------------------------------------------------------------------------------------------------------------- \n";
+                    }
+                }
+            }
+            */
     textarea.value = localStorage.kienText;
   };
-
-  const [incidenceDict, setIncidenceDict] = React.useState(
-    JSON.parse(defaultUserInput)
-  );
-
-  const nodesSet = new Map();
-  const edges = Object.entries(incidenceDict).map(([uid, elements]) => {
-    elements.forEach((uid) => {
-      nodesSet.set(uid, { uid });
-    });
-
-    return { uid, elements };
-  });
-
-  const nodes = Array.from(nodesSet.values());
 
   return (
     <Grid container>
